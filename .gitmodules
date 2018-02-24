@@ -1,0 +1,3 @@
+[submodule "DamienGKit"]
+	path = DamienGKit
+	url = git@github.com:damieng/DamienGKit
