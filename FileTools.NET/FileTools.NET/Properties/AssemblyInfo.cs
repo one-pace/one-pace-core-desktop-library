@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FileTools.NET")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("File utilities for .NET.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("FileTools.NET")]
