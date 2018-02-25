@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>filetools.net</id>
+    <version>1.0.0</version>
+    <title>FileTools.NET</title>
+    <authors>Simon Haga</authors>
+    <owners>Simon Haga</owners>
+    <projectUrl>https://github.com/sewil/FileTools.NET</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>File utilities for .NET</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>filetools file tools</tags>
+  </metadata>
+</package>

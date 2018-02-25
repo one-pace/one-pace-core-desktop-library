@@ -42,15 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyUtils.cs" />
+    <Compile Include="DamienGKit.Crc32.cs" />
     <Compile Include="FileInfoExtension.cs" />
     <Compile Include="CRC32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\DamienGKit\CSharp\DamienG.Library\DamienG.Library.csproj">
-      <Project>{678c5c16-2d7d-4cc8-bef2-29bb65e311b5}</Project>
-      <Name>DamienG.Library</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
