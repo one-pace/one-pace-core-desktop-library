@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using FileTools.NET.Cryptography;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace FileTools.NET
+namespace FileTools.NET.Extensions
 {
     public static class FileInfoExtension
     {

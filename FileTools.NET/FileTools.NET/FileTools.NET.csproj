@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyUtils.cs" />
-    <Compile Include="DamienGKit.Crc32.cs" />
-    <Compile Include="FileInfoExtension.cs" />
-    <Compile Include="CRC32.cs" />
+    <Compile Include="Utils\AssemblyUtils.cs" />
+    <Compile Include="Converters\ASS2SRTConverter.cs" />
+    <Compile Include="Cryptography\DamienGKit.Crc32.cs" />
+    <Compile Include="Extensions\FileInfoExtension.cs" />
+    <Compile Include="Cryptography\CRC32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

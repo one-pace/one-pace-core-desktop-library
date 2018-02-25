@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace FileTools.NET
+namespace FileTools.NET.Utils
 {
     public static class AssemblyUtils
     {
