@@ -51,18 +51,24 @@ namespace FileTools.NET.Extensions
                 instance.Rename(newName);
             }
         }
-        public static bool ValidateCRC32(this FileInfo instance, string regexPattern, int offsetStart, int offsetEnd)
+        public static bool ValidateCRC32(this FileInfo instance, string regexPattern, int offsetStart, int offsetEnd, out string actualCrc32)
         {
+            actualCrc32 = "";
             Match m = Regex.Match(instance.GetFileNameWithoutExtension(), regexPattern, RegexOptions.IgnoreCase);
-            if (m != null)
+            if (m != null && m.Success)
             {
-                string crc32 = m.Value.Substring(offsetStart, m.Value.Length - offsetStart - offsetEnd);
-                if (crc32 != instance.GetCRC32())
+                actualCrc32 = instance.GetCRC32();
+                string expectedCrc32 = m.Value.Substring(offsetStart, m.Value.Length - offsetStart - offsetEnd);
+                if (expectedCrc32 != actualCrc32)
                 {
                     return false;
                 }
+                else
+                {
+                    return true;
+                }
             }
-            return true;
+            return false;
         }
     }
 }

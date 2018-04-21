@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/sewil/FileTools.NET</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>ASS2SRT converter added.</releaseNotes>
+    <releaseNotes>FileInfoUtils added.</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>filetools file tools utils utilities fileconverter converter crc32</tags>
   </metadata>
