@@ -51,6 +51,14 @@ namespace FileTools.NET.Extensions
                 instance.Rename(newName);
             }
         }
+        public static string GetDriveRoot(this FileInfo instance)
+        {
+            return Path.GetPathRoot(instance.FullName).TrimEnd('\\');
+        }
+        public static string GetPathOnly(this FileInfo instance)
+        {
+            return instance.DirectoryName.Substring(instance.DirectoryName.IndexOf('\\'));
+        }
         public static bool ValidateCRC32(this FileInfo instance, string regexPattern, int offsetStart, int offsetEnd, out string actualCrc32)
         {
             actualCrc32 = "";
