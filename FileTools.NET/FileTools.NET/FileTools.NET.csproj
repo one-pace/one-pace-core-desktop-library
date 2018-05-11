@@ -51,5 +51,8 @@
     <Compile Include="Utils\MKVToolNixUtils.cs" />
     <Compile Include="Utils\ProcessUtils.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MKVToolNix\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
