@@ -25,8 +25,10 @@ namespace FileTools.NET.Utils
             for (int i = 0; i < inputs.Count; i++)
             {
                 FileInfo input = inputs[i];
-                foreach (Match match in Regex.Matches(arguments, @"%~[a-z]{0,}\d"))
+                string pattern = "%~[a-z]{0,}" + (i + 1) + @"(:\(.{1}=.*?\)){0,}";
+                while (Regex.IsMatch(arguments, pattern))
                 {
+                    Match match = Regex.Match(arguments, pattern);
                     string fullInput = "";
                     var controlLetterMatches = Regex.Matches(match.Value, @"[a-z]");
                     if (controlLetterMatches.Count == 0)
@@ -52,7 +54,14 @@ namespace FileTools.NET.Utils
                             }
                         }
                     }
-                    arguments = arguments.Replace(match.Value, fullInput);
+                    foreach (Match replaceMatch in Regex.Matches(match.Value, @":\(.{1}=.*?\)"))
+                    {
+                        string old = replaceMatch.Value.Substring(2, 1);
+                        string replacement = replaceMatch.Value.Substring(4, replaceMatch.Value.Length - 5);
+                        fullInput = fullInput.Replace(old, replacement);
+                    }
+                    arguments = arguments.Remove(match.Index, match.Length);
+                    arguments = arguments.Insert(match.Index, fullInput);
                 }
             }
             return Start(fileName, arguments, waitForExit, windowStyle);

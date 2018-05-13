@@ -57,7 +57,7 @@ namespace FileTools.NET.Extensions
         }
         public static string GetPathOnly(this FileInfo instance)
         {
-            return instance.DirectoryName.Substring(instance.DirectoryName.IndexOf('\\'));
+            return instance.DirectoryName.Substring(instance.DirectoryName.IndexOf('\\')).EndWith("\\");
         }
         public static bool ValidateCRC32(this FileInfo instance, string regexPattern, int offsetStart, int offsetEnd, out string actualCrc32)
         {
