@@ -10,5 +10,9 @@
             }
             return s;
         }
+        public static bool HasText(this string s)
+        {
+            return !string.IsNullOrWhiteSpace(s);
+        }
     }
 }
