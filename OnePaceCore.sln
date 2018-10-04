@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnePaceCore", "OnePaceCore.csproj", "{D9D42725-EF61-4989-AFD3-69EA7F08984D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonyVegas140", "SonyVegas140\SonyVegas140.csproj", "{D30F0D96-D78C-443C-8D0C-EF3E51B99DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonyVegas150", "SonyVegas150\SonyVegas150.csproj", "{1E04EE6F-462A-46A0-BA78-41A3F0BF4D66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9D42725-EF61-4989-AFD3-69EA7F08984D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D42725-EF61-4989-AFD3-69EA7F08984D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D42725-EF61-4989-AFD3-69EA7F08984D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D42725-EF61-4989-AFD3-69EA7F08984D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30F0D96-D78C-443C-8D0C-EF3E51B99DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30F0D96-D78C-443C-8D0C-EF3E51B99DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30F0D96-D78C-443C-8D0C-EF3E51B99DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30F0D96-D78C-443C-8D0C-EF3E51B99DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E04EE6F-462A-46A0-BA78-41A3F0BF4D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E04EE6F-462A-46A0-BA78-41A3F0BF4D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E04EE6F-462A-46A0-BA78-41A3F0BF4D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E04EE6F-462A-46A0-BA78-41A3F0BF4D66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BEB1AF1-4307-4BBE-BC73-85F908186B9D}
+	EndGlobalSection
+EndGlobal
