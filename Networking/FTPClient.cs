@@ -42,6 +42,10 @@ namespace OnePaceCore.Networking
         }
         public byte[] Upload(string localPath, string remoteDirectory, string remoteFileName, FileExistsAction fileExistsAction, FTPTransferProgressEventHandler progressChanged, CancellationTokenSource cts)
         {
+            string path = (remoteDirectory + (string.IsNullOrWhiteSpace(remoteFileName) ? "" : "/" + remoteFileName));
+            string url = UnixPathUtils.Combine(_uri.ToString(), path);
+            Uri uri = new Uri(url);
+
             if (fileExistsAction == FileExistsAction.Overwrite)
             {
                 try
@@ -49,6 +53,10 @@ namespace OnePaceCore.Networking
                     Delete(Path.Combine(remoteDirectory, remoteFileName));
                 }
                 catch { }
+            }
+            else if (fileExistsAction == FileExistsAction.Skip && FileExists(path))
+            {
+                return null;
             }
             using (WebClient client = new WebClient())
             {
@@ -72,8 +80,6 @@ namespace OnePaceCore.Networking
                 }
                 catch { }
 
-                string url = $"{_uri.ToString()}{directory}{(string.IsNullOrWhiteSpace(fileName) ? "" : "/" + fileName)}".Replace("//", "/").Replace("ftp:/", "ftp://");
-                Uri uri = new Uri(url);
                 _stopWatch = Stopwatch.StartNew();
                 byte[] task = client.UploadFileTaskAsync(uri, "STOR", localPath.ToString()).GetAwaiter().GetResult();
                 _stopWatch.Stop();
@@ -151,8 +157,22 @@ namespace OnePaceCore.Networking
                 throw new Exception(response.StatusDescription);
             }
         }
+
+        public bool FileExists(string path)
         {
+            try
+            {
+                GetResponse(WebRequestMethods.Ftp.GetFileSize, path);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public IList<FTPDirectoryDetails> ListDirectoryDetails(string path)
+        {
             var details = new List<FTPDirectoryDetails>();
             string permissionPattern = "([-ldrwx]{10}) {1,3}";
             string idPattern = @"\d+ ";
