@@ -9,6 +9,11 @@ namespace FileTools.NET.Utils
 {
     public static class ProcessUtils
     {
+        public static Process StartWithBatchCode(string batchCode, bool waitForExit, FileInfo input, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
+        {
+            return StartWithBatchCode(batchCode, waitForExit, new List<FileInfo> { input }, windowStyle);
+        }
+
         public static Process StartWithBatchCode(string batchCode, bool waitForExit, IList<FileInfo> inputs, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
         {
             if (string.IsNullOrWhiteSpace(batchCode))
