@@ -25,10 +25,12 @@ namespace OnePaceCore.Utils
             Version = version;
             _vegas = version.GetProcessName();
         }
-        public void Render(string file, string renderer, string template, bool waitForExit = false)
         {
-            string script = AssemblyUtils.GetAssemblyDirectory() + "\\Render" + Version + ".cs";
-            Process process = Process.Start(_vegas, $"\"{file}\" -script \"{script}?renderer={renderer}&template={template}\"");
+        public void StartVegas(string arguments, bool waitForExit, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
+        {
+            StartProcess(_vegas, arguments, waitForExit, windowStyle);
+        }
+
         public void StartProcess(string fileName, string arguments, bool waitForExit, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
         {
             Process process = new Process { StartInfo = new ProcessStartInfo { FileName = fileName, Arguments = arguments, WindowStyle = windowStyle } };
@@ -38,6 +40,11 @@ namespace OnePaceCore.Utils
             }
             process.Start();
         }
+
+        public void Render(string file, string renderer, string template, bool waitForExit = false)
+        {
+            string script = AssemblyUtils.GetAssemblyDirectory() + "\\Render" + Version + ".cs";
+            StartVegas($"\"{file}\" -script \"{script}?renderer={renderer}&template={template}\"", waitForExit);
         }
         /// <summary>
         /// Takes a raw (mp4 or veg file) and mkv file and imports the subtitles from the mkv as regions into the veg file. Requires mkvextract, python, prass, and the RegionsImporter script.
@@ -56,14 +63,14 @@ namespace OnePaceCore.Utils
             if (attach.Extension == ".mkv")
             {
                 Write("Extracting .ass file...", ping);
-                RunProcess("mkvextract", "tracks \"" + attach + "\" " + subsTrackIndex + ":\"" + VegCreatorDirectory + "\\0.ass\"", ProcessWindowStyle.Hidden);
+                StartProcess("mkvextract", "tracks \"" + attach + "\" " + subsTrackIndex + ":\"" + VegCreatorDirectory + "\\0.ass\"", true, ProcessWindowStyle.Hidden);
                 Write("Done.", ping);
                 attach = new FileInfo(VegCreatorDirectory + "\\0.ass");
             }
             else if (attach.Extension == ".srt")
             {
                 Write($"Converting to .ass...", ping);
-                RunProcess("python", "-m prass convert-srt \"" + attach + "\" -o \"" + VegCreatorDirectory + "\\0.ass\"", ProcessWindowStyle.Hidden);
+                StartProcess("python", "-m prass convert-srt \"" + attach + "\" -o \"" + VegCreatorDirectory + "\\0.ass\"", true, ProcessWindowStyle.Hidden);
                 Write("Done.", ping);
                 attach = new FileInfo(VegCreatorDirectory + "\\0.ass");
             }
@@ -77,7 +84,7 @@ namespace OnePaceCore.Utils
                 throw new ArgumentException("Invalid attach extension");
             }
             Write($"Shifting time {shiftMS}ms...", ping);
-            RunProcess("python", $"-m prass shift --by {shiftMS}ms \"{attach}\" -o \"{attach}\"", ProcessWindowStyle.Hidden);
+            StartProcess("python", $"-m prass shift --by {shiftMS}ms \"{attach}\" -o \"{attach}\"", true, ProcessWindowStyle.Hidden);
             Write("Done.", ping);
             Write("Converting .ass file to .srt file...", ping);
             ASS2SRTConverter.CreateSRT(attach);
@@ -105,14 +112,14 @@ namespace OnePaceCore.Utils
                 }
                 string vegpath = $"{raw.Directory}\\{mp4name}.veg";
                 Write("Importing regions...", ping);
-                RunProcess(_vegas, $"-script \"{regionsimporter}?savewhendone=true&closeonfinish=true&file={srt}&makeveg=true&media={raw}&output={vegpath}\"", ProcessWindowStyle.Hidden);
+                StartVegas($"-script \"{regionsimporter}?savewhendone=true&closeonfinish=true&file={srt}&makeveg=true&media={raw}&output={vegpath}\"", true, ProcessWindowStyle.Hidden);
                 Write("Done.", ping);
                 raw = new FileInfo(vegpath);
             }
             else
             {
                 Write("Importing regions...", ping);
-                RunProcess(_vegas, $"\"{raw}\" -script \"{regionsimporter}?savewhendone=true&closeonfinish=true&file={srt}\"");
+                StartVegas($"\"{raw}\" -script \"{regionsimporter}?savewhendone=true&closeonfinish=true&file={srt}\"", true);
                 Write("Done.", ping);
             }
             Directory.Delete($@"{VegCreatorDirectory}", true);
@@ -172,12 +179,6 @@ namespace OnePaceCore.Utils
                 m = null;
                 return false;
             }
-        }
-        private static void RunProcess(string fileName, string arguments, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
-        {
-            var p = new Process { StartInfo = new ProcessStartInfo { FileName = fileName, Arguments = arguments, WindowStyle = windowStyle } };
-            p.Start();
-            p.WaitForExit();
         }
     }
 }
