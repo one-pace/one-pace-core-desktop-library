@@ -112,6 +112,17 @@ namespace OnePaceCore.Utils
             }
             Directory.Delete($@"{VegCreatorDirectory}", true);
         }
+
+        public void ExportRegions(string vegPath)
+        {
+            if (!File.Exists(vegPath))
+            {
+                throw new FileNotFoundException($"Could not find a part of the path '{vegPath}'.");
+            }
+            FileInfo regionsExporter = new FileInfo(AssemblyUtils.GetAssemblyDirectory() + "\\RegionsExporter" + (int)Version + ".cs");
+            StartVegas($"\"{vegPath}\" -script \"{regionsExporter}\"", true, ProcessWindowStyle.Hidden);
+        }
+
         public static void Write(string message, Ping ping, bool error = false)
         {
             Console.WriteLine(message);
