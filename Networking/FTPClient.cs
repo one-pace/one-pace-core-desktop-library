@@ -112,7 +112,7 @@ namespace OnePaceCore.Networking
                 {
                     totalBytes = sshClient.GetFileSize(sshClient.Root + remotePath);
 
-                    cts.Token.Register(client.CancelAsync);
+                    cts?.Token.Register(client.CancelAsync);
 
                     client.Credentials = _credentials;
                     client.DownloadProgressChanged += (sender, e) =>
@@ -279,8 +279,6 @@ namespace OnePaceCore.Networking
             {
                 do
                 {
-                    byte[] block = new byte[1024];
-                    count = stream.Read(block, 0, 1024);
                     byte[] block = new byte[bufferSize];
                     count = stream.Read(block, 0, bufferSize);
                     memoryStream.Write(block, 0, count);
