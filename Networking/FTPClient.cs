@@ -26,6 +26,22 @@ namespace OnePaceCore.Networking
         }
         public void Upload(string localPath, string remoteDirectory, string remoteFileName, FileExistsAction fileExistsAction)
         {
+            
+            Upload(localPath, remoteDirectory, remoteFileName, fileExistsAction, null, null, null);
+        }
+        public void Upload(string localPath, string remoteDirectory, string remoteFileName, FileExistsAction fileExistsAction, FTPTransferProgressEventHandler progressChanged, FTPTransferCanceledEventHandler uploadCanceled, CancellationTokenSource cts)
+        {
+            try
+            {
+                Upload(localPath, remoteDirectory, remoteFileName, fileExistsAction, progressChanged, cts);
+            }
+            catch (WebException e)
+            {
+                uploadCanceled?.Invoke(e);
+            }
+        }
+        public byte[] Upload(string localPath, string remoteDirectory, string remoteFileName, FileExistsAction fileExistsAction, FTPTransferProgressEventHandler progressChanged, CancellationTokenSource cts)
+        {
             if (fileExistsAction == FileExistsAction.Overwrite)
             {
                 try
@@ -34,21 +50,6 @@ namespace OnePaceCore.Networking
                 }
                 catch { }
             }
-            Upload(localPath, remoteDirectory, remoteFileName, null, null, null);
-        }
-        public void Upload(string localPath, string directory, string fileName, FTPTransferProgressEventHandler progressChanged, FTPTransferCanceledEventHandler uploadCanceled, CancellationTokenSource cts)
-        {
-            try
-            {
-                Upload(localPath, directory, fileName, progressChanged, cts);
-            }
-            catch (WebException e)
-            {
-                uploadCanceled?.Invoke(e);
-            }
-        }
-        public byte[] Upload(string localPath, string directory, string fileName, FTPTransferProgressEventHandler progressChanged, CancellationTokenSource cts)
-        {
             using (WebClient client = new WebClient())
             {
                 client.Credentials = _credentials;
@@ -79,7 +80,7 @@ namespace OnePaceCore.Networking
                 return task;
             }
         }
-        public void UploadMultiple(List<Tuple<string, string, string>> filesWithPaths, FTPMultipleTransferProgressChangedEventHandler uploadProgressChanged, FTPTransferProgressEventHandler progressChanged, FTPTransferCanceledEventHandler uploadCanceled, CancellationTokenSource cts)
+        public void UploadMultiple(List<Tuple<string, string, string>> filesWithPaths, FileExistsAction fileExistsAction, FTPMultipleTransferProgressChangedEventHandler uploadProgressChanged, FTPTransferProgressEventHandler progressChanged, FTPTransferCanceledEventHandler uploadCanceled, CancellationTokenSource cts)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace OnePaceCore.Networking
                 {
                     var item = filesWithPaths[i - 1];
 
-                    Upload(item.Item1, item.Item2, item.Item3, progressChanged, cts);
+                    Upload(item.Item1, item.Item2, item.Item3, fileExistsAction, progressChanged, cts);
                     uploadProgressChanged.Invoke(i);
                 }
             }

@@ -3,6 +3,7 @@
     public enum FileExistsAction
     {
         DoNothing,
-        Overwrite
+        Overwrite,
+        Skip
     }
 }
