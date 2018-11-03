@@ -35,17 +35,16 @@ namespace FileTools.NET.Utils
             {
                 throw new ArgumentException("Chapter file must be an .xml.");
             }
-            string attachFiles = string.Join(" ", attachments.Select(i => "--attach-file \"" + i + "\""));
-            string chapters = chapterFile != null ? "--chapters \"" + chapterFile + "\"" : "";
-            string arguments = $"-o \"{output}\" --language 0:" + languages[0] + " --language 1:" + languages[1] + " \"" + videoFile + "\" --language 0:" + languages[2] + " \"" + subtitleFile + "\" " + attachFiles + " " + chapters;
-            try
+            string arguments = $"-o \"{output}\" --language 0:" + languages[0] + " --language 1:" + languages[1] + " \"" + videoFile + "\" --language 0:" + languages[2] + " \"" + subtitleFile + "\"";
+            if (attachments?.Count > 0)
             {
-                ProcessUtils.Start("mkvmerge", arguments, true);
+                arguments += " " + string.Join(" ", attachments.Select(i => "--attach-file \"" + i + "\""));
             }
-            catch (Exception)
+            if (chapterFile != null)
             {
-                throw new Exception("mkvmerge not found. Make sure that it's installed and added to the system PATH.");
+                arguments += " --chapters \"" + chapterFile + "\"";
             }
+            ProcessUtils.Start("mkvmerge", arguments, true);
         }
     }
 }
