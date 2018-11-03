@@ -25,7 +25,12 @@ namespace OnePaceCore.Utils
             Version = version;
             _vegas = version.GetProcessName();
         }
+
+        public void StartVegas(string arguments)
         {
+            StartVegas(arguments, false, ProcessWindowStyle.Normal);
+        }
+
         public void StartVegas(string arguments, bool waitForExit, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
         {
             StartProcess(_vegas, arguments, waitForExit, windowStyle);
@@ -46,6 +51,7 @@ namespace OnePaceCore.Utils
             string script = AssemblyUtils.GetAssemblyDirectory() + "\\Render" + Version + ".cs";
             StartVegas($"\"{file}\" -script \"{script}?renderer={renderer}&template={template}\"", waitForExit);
         }
+
         /// <summary>
         /// Takes a raw (mp4 or veg file) and mkv file and imports the subtitles from the mkv as regions into the veg file. Requires mkvextract, python, prass, and the RegionsImporter script.
         /// </summary>
