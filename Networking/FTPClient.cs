@@ -67,7 +67,7 @@ namespace OnePaceCore.Networking
 
                 try
                 {
-                    GetBytes(WebRequestMethods.Ftp.MakeDirectory, directory);
+                    GetResponse(WebRequestMethods.Ftp.MakeDirectory, remoteDirectory);
                 }
                 catch { }
 
@@ -245,18 +245,23 @@ namespace OnePaceCore.Networking
                 return lines;
             }
         }
-        public byte[] GetBytes(string method, string path)
-        {
-            FtpWebResponse response = GetResponse(method, path);
+    }
 
+    public static class FTPClientExtension
+    {
+        public static byte[] GetBytes(this FtpWebResponse response, string method, string path)
+        {
+            int count = 0;
+            int bufferSize = (int)Math.Pow(2, 10);
             using (Stream stream = response.GetResponseStream())
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                int count = 0;
                 do
                 {
                     byte[] block = new byte[1024];
                     count = stream.Read(block, 0, 1024);
+                    byte[] block = new byte[bufferSize];
+                    count = stream.Read(block, 0, bufferSize);
                     memoryStream.Write(block, 0, count);
                 } while (stream.CanRead && count > 0);
 
