@@ -1,4 +1,5 @@
 ﻿using OnePaceCore.Enums;
+using OnePaceCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -226,20 +227,7 @@ namespace OnePaceCore.Networking
         }
         public FtpWebResponse GetResponse(string method, string path)
         {
-            if (!Regex.IsMatch(path, "[^\\/]"))
-            {
-                path = "";
-            }
-            while (Regex.IsMatch(path, "(\\/\\/)"))
-            {
-                path = Regex.Replace(path, "(\\/\\/)", "/");
-            }
-            if (path.StartsWith("/") && path.Length >= 2)
-            {
-                path = path.Substring(1);
-            }
-
-            Uri uri = new Uri($"{_uri.ToString()}{path}");
+            Uri uri = new Uri(UnixPathUtils.Combine(_uri, path));
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
             request.Method = method;
             request.Credentials = _credentials;
