@@ -142,29 +142,6 @@ namespace OnePaceCore.Networking
 
             return;
         }
-        public struct DirectoryDetails
-        {
-            public bool IsDirectory
-            {
-                get
-                {
-                    return Permissions.StartsWith("d");
-                }
-            }
-            public bool IsLink
-            {
-                get
-                {
-                    return Permissions.StartsWith("l");
-                }
-            }
-            public string Raw { get; set; }
-            public string Permissions { get; set; }
-            public DateTime DateModified { get; set; }
-            public string Path { get; set; }
-            public long Size { get; set; }
-            public string Name { get; set; }
-        }
         public void Delete(string path)
         {
             var response = GetResponse(WebRequestMethods.Ftp.DeleteFile, path);
@@ -173,9 +150,9 @@ namespace OnePaceCore.Networking
                 throw new Exception(response.StatusDescription);
             }
         }
-        public IList<DirectoryDetails> ListDirectoryDetails(string path)
         {
-            var details = new List<DirectoryDetails>();
+        public IList<FTPDirectoryDetails> ListDirectoryDetails(string path)
+            var details = new List<FTPDirectoryDetails>();
             string permissionPattern = "([-ldrwx]{10}) {1,3}";
             string idPattern = @"\d+ ";
             string usernamePattern = @"([a-z0-9]+) ([a-z0-9]+) +";
@@ -213,7 +190,7 @@ namespace OnePaceCore.Networking
                     p = path + "/" + name;
                 }
 
-                details.Add(new DirectoryDetails
+                details.Add(new FTPDirectoryDetails
                 {
                     DateModified = modified,
                     Name = name,
