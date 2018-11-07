@@ -1,4 +1,5 @@
 ﻿using OnePaceCore.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,16 +10,16 @@ namespace FileTools.NET.Utils
 {
     public static class ProcessUtils
     {
-        public static Process StartWithBatchCode(string batchCode, bool waitForExit, FileInfo input, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
+        public static void StartWithBatchCode(string batchCode, FileInfo input)
         {
-            return StartWithBatchCode(batchCode, waitForExit, new List<FileInfo> { input }, windowStyle);
+            StartWithBatchCode(batchCode, new List<FileInfo> { input });
         }
 
-        public static Process StartWithBatchCode(string batchCode, bool waitForExit, IList<FileInfo> inputs, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
+        public static void StartWithBatchCode(string batchCode, IList<FileInfo> inputs)
         {
             if (string.IsNullOrWhiteSpace(batchCode))
             {
-                return null;
+                return;
             }
             string arguments = "";
             string[] spaces = batchCode.Split(' ');
@@ -69,17 +70,29 @@ namespace FileTools.NET.Utils
                     arguments = arguments.Insert(match.Index, fullInput);
                 }
             }
-            return Start(fileName, arguments, waitForExit, windowStyle);
+            Start(fileName, arguments, null);
         }
-        public static Process Start(string fileName, string arguments, bool waitForExit, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
+        public static void Start(string fileName, string arguments, Action<string> outputLine)
         {
-            Process process = new Process { StartInfo = new ProcessStartInfo { FileName = fileName, Arguments = arguments, WindowStyle = windowStyle } };
-            process.Start();
-            if (waitForExit)
+            Process process = new Process
             {
-                process.WaitForExit();
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = fileName,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+            process.Start();
+            process.WaitForExit();
+
+            while (!process.StandardOutput.EndOfStream)
+            {
+                string line = process.StandardOutput.ReadLine();
+                outputLine?.Invoke(line);
             }
-            return process;
         }
     }
 }
