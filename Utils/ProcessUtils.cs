@@ -70,9 +70,9 @@ namespace FileTools.NET.Utils
                     arguments = arguments.Insert(match.Index, fullInput);
                 }
             }
-            Start(fileName, arguments, null);
+            Start(fileName, arguments);
         }
-        public static void Start(string fileName, string arguments, Action<string> outputLine)
+        public static void Start(string fileName, string arguments)
         {
             Process process = new Process
             {
@@ -80,19 +80,11 @@ namespace FileTools.NET.Utils
                 {
                     FileName = fileName,
                     Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    WindowStyle = ProcessWindowStyle.Normal
                 }
             };
             process.Start();
             process.WaitForExit();
-
-            while (!process.StandardOutput.EndOfStream)
-            {
-                string line = process.StandardOutput.ReadLine();
-                outputLine?.Invoke(line);
-            }
         }
     }
 }

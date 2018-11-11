@@ -44,7 +44,7 @@ namespace FileTools.NET.Utils
             {
                 arguments += " --chapters \"" + chapterFile + "\"";
             }
-            ProcessUtils.Start("mkvmerge", arguments, null);
+            ProcessUtils.Start("mkvmerge", arguments);
         }
     }
 }

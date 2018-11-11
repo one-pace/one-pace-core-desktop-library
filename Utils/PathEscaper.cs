@@ -9,7 +9,7 @@
 		/// <returns></returns>
 		public static string EscapeWrappedPath(string path)
 		{
-			return path.Replace(@"\", @"\\\\").Replace(":", @"\\:");
+			return path.Replace(@"\", @"\\").Replace(":", @"\:");
 		}
 	}
 }
