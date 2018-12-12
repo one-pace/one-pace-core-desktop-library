@@ -39,11 +39,11 @@ namespace OnePaceCore.Utils
         public void StartProcess(string fileName, string arguments, bool waitForExit, ProcessWindowStyle windowStyle = ProcessWindowStyle.Normal)
         {
             Process process = new Process { StartInfo = new ProcessStartInfo { FileName = fileName, Arguments = arguments, WindowStyle = windowStyle } };
+            process.Start();
             if (waitForExit)
             {
                 process.WaitForExit();
             }
-            process.Start();
         }
 
         public void Render(string file, string renderer, string template, bool waitForExit = false)
