@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Forms;
 
 namespace ScriptPortal.Vegas.Render
 {
@@ -19,8 +20,25 @@ namespace ScriptPortal.Vegas.Render
                 vegas.ShowError("Render template not found.");
                 return;
             }
-            string path = vegas.Project.FilePath;
-            string saveas = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(path) + ".rendered.mp4";
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = ".mp4 file (*.mp4)|*.mp4",
+                Title = "Select render location",
+                InitialDirectory = vegas.Project.FilePath,
+                CheckPathExists = true,
+                AddExtension = true
+            };
+
+            string saveas = null;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                saveas = Path.GetFullPath(saveFileDialog.FileName);
+            }
+            else
+            {
+                return;
+            }
+
             RenderStatus status = vegas.Render(saveas, template);
             if (status == RenderStatus.Complete || status == RenderStatus.Canceled || status == RenderStatus.Quit)
             {
