@@ -48,7 +48,7 @@ namespace OnePaceCore.Utils
 
         public void Render(string file, string renderer, string template, bool waitForExit = false)
         {
-            string script = AssemblyUtils.GetAssemblyDirectory() + "\\Render" + Version + ".cs";
+            string script = AssemblyUtils.GetAssemblyDirectory() + "\\Render" + (int)Version + ".cs";
             StartVegas($"\"{file}\" -script \"{script}?renderer={renderer}&template={template}\"", waitForExit);
         }
 
