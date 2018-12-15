@@ -9,6 +9,7 @@ namespace ScriptPortal.Vegas.Render
         {
             string rendererName = Script.Args.ValueOf("renderer");
             string templateName = Script.Args.ValueOf("template");
+            string saveas = Script.Args.ValueOf("saveas", true);
             Renderer renderer = vegas.Renderers.FindByName(rendererName);
             RenderTemplate template = null;
             if (renderer != null)
@@ -20,22 +21,25 @@ namespace ScriptPortal.Vegas.Render
                 vegas.ShowError("Render template not found.");
                 return;
             }
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            if (string.IsNullOrWhiteSpace(saveas))
             {
-                Filter = ".mp4 file (*.mp4)|*.mp4",
-                Title = "Select render location",
-                InitialDirectory = vegas.Project.FilePath,
-                CheckPathExists = true,
-                AddExtension = true
-            };
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = ".mp4 file (*.mp4)|*.mp4",
+                    Title = "Select render location",
+                    InitialDirectory = vegas.Project.FilePath,
+                    CheckPathExists = true,
+                    AddExtension = true
+                };
 
-            string saveas = null;
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                saveas = Path.GetFullPath(saveFileDialog.FileName);
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    saveas = Path.GetFullPath(saveFileDialog.FileName);
+                }
             }
-            else
+            if (string.IsNullOrWhiteSpace(saveas))
             {
+                vegas.ShowError("No valid save path exists.");
                 return;
             }
 
