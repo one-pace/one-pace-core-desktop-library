@@ -31,7 +31,7 @@ namespace FileTools.NET.Utils
             for (int i = 0; i < inputs.Count; i++)
             {
                 FileInfo input = inputs[i];
-                string pattern = "%~[a-z]{0,}" + (i + 1) + @"(:\(.{1}=.*?\)){0,}";
+                string pattern = "%~[a-z]{0,}" + (i + 1) + @"(:\(.{1}=.*?\)){0,}"; // %~n1:(a=b):(c=d)
                 while (Regex.IsMatch(arguments, pattern))
                 {
                     Match match = Regex.Match(arguments, pattern);
@@ -60,7 +60,7 @@ namespace FileTools.NET.Utils
                             }
                         }
                     }
-                    foreach (Match replaceMatch in Regex.Matches(match.Value, @":\(.{1}=.*?\)"))
+                    foreach (Match replaceMatch in Regex.Matches(match.Value, @":\(.{1}=.*?\)")) // :(a=b)
                     {
                         string old = replaceMatch.Value.Substring(2, 1);
                         string replacement = replaceMatch.Value.Substring(4, replaceMatch.Value.Length - 5);
