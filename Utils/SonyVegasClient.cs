@@ -46,10 +46,10 @@ namespace OnePaceCore.Utils
             }
         }
 
-        public void Render(string file, string renderer, string template, bool waitForExit = false)
+        public void Render(string file, string renderer, string template, string savePath = null, bool waitForExit = false)
         {
             string script = AssemblyUtils.GetAssemblyDirectory() + "\\Render" + (int)Version + ".cs";
-            StartVegas($"\"{file}\" -script \"{script}?renderer={renderer}&template={template}\"", waitForExit);
+            StartVegas($"\"{file}\" -script \"{script}?renderer={renderer}&template={template}&saveas={savePath}\"", waitForExit);
         }
 
         /// <summary>
