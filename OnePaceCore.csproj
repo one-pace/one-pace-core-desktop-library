@@ -59,6 +59,7 @@
     <Compile Include="Utils\AssemblyUtils.cs" />
     <Compile Include="Utils\FFmpegUtils.cs" />
     <Compile Include="Utils\FileInfoUtils.cs" />
+    <Compile Include="Utils\NaturalComparer.cs" />
     <Compile Include="Utils\PathEscaper.cs" />
     <Compile Include="Utils\UnixPathUtils.cs" />
     <Compile Include="Utils\MKVToolNixUtils.cs" />
