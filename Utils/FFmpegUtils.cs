@@ -1,6 +1,4 @@
-﻿using FileTools.NET.Utils;
-
-namespace OnePaceCore.Utils
+﻿namespace OnePaceCore.Utils
 {
     public static class FFmpegUtils
     {

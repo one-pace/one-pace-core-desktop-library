@@ -1,12 +1,11 @@
 ﻿using OnePaceCore.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace FileTools.NET.Utils
+namespace OnePaceCore.Utils
 {
     public static class ProcessUtils
     {

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace FileTools.NET.Utils
+namespace OnePaceCore.Utils
 {
     public static class FileInfoUtils
     {
