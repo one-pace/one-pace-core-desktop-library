@@ -163,7 +163,7 @@ namespace OnePaceCore.Networking
         {
             try
             {
-                GetResponse(WebRequestMethods.Ftp.GetFileSize, path);
+                GetResponse(WebRequestMethods.Ftp.GetDateTimestamp, path);
                 return true;
             }
             catch
