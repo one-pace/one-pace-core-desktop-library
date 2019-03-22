@@ -7,7 +7,7 @@ namespace OnePaceCore.Utils
 {
     public static class MKVToolNixUtils
     {
-        public static void Multiplex(FileInfo videoFile, FileInfo subtitleFile, IList<string> languages, IList<FileInfo> attachments, FileInfo chapterFile, string output)
+        public static void Multiplex(FileInfo videoFile, FileInfo subtitleFile, IList<string> languages, IList<FileInfo> attachments, FileInfo chapterFile, string[] subtitleAppendices, string output)
         {
             languages = languages.Select(i => i.ToLower()).ToList();
             string videoExtension = (videoFile?.Extension ?? "").ToLower();
@@ -35,16 +35,34 @@ namespace OnePaceCore.Utils
             {
                 throw new ArgumentException("Chapter file must be an .xml.");
             }
-            string arguments = $"-o \"{output}\" --language 0:" + languages[0] + " --language 1:" + languages[1] + " \"" + videoFile.FullName + "\" --language 0:" + languages[2] + " \"" + subtitleFile.FullName + "\"";
-            if (attachments?.Count > 0)
+            string arguments = $"--output {EscapePath(output)}";
+            arguments += $" --language 0:{languages[0]} --language 1:{languages[1]} {EscapePath(videoFile)}";
+            arguments += $" --language 0:{languages[2]} ( {EscapePath(subtitleFile)}";
+            if (subtitleAppendices != null && subtitleAppendices.Length > 0)
             {
-                arguments += " " + string.Join(" ", attachments.Select(i => "--attach-file \"" + i.FullName + "\""));
+                arguments += " " + string.Join(" ", subtitleAppendices.Select(i => EscapePath(i)));
             }
+            arguments += " )";
             if (chapterFile != null)
             {
-                arguments += " --chapters \"" + chapterFile.FullName + "\"";
+                arguments += $" --chapter-language und --chapters {EscapePath(chapterFile)}";
             }
+            if (attachments?.Count > 0)
+            {
+                arguments += " " + string.Join(" ", attachments.Select(i => "--attach-file " + EscapePath(i)));
+            }
+
             ProcessUtils.Start("mkvmerge", arguments);
+        }
+
+        private static string EscapePath(FileInfo path)
+        {
+            return EscapePath(path.FullName);
+        }
+
+        private static string EscapePath(string path)
+        {
+            return $"\"{path}\"";
         }
     }
 }
