@@ -1,4 +1,5 @@
-﻿using Renci.SshNet;
+﻿using OnePaceCore.Utils;
+using Renci.SshNet;
 using System;
 
 namespace OnePaceCore.Networking
@@ -90,6 +91,15 @@ namespace OnePaceCore.Networking
 
             return 0;
         }
+
+        public string Delete(string path)
+        {
+            string unixPath = UnixPathUtils.SanitizePath(path);
+            unixPath = unixPath.Replace(" ", "\\ ");
+            SshCommand response = RunCommand($"rm {unixPath}");
+            return response.Result;
+        }
+
         public void Dispose()
         {
             _client.Dispose();
