@@ -49,6 +49,7 @@
     <Compile Include="Cryptography\DamienGKit.Crc32.cs" />
     <Compile Include="Enums\FileExistsAction.cs" />
     <Compile Include="Enums\SonyVegasVersion.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Networking\DelugeClient.cs" />
