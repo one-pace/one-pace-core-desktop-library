@@ -7,7 +7,7 @@ namespace OnePaceCore.Utils
 {
     public static class MKVToolNixUtils
     {
-        public static void Multiplex(FileInfo videoFile, FileInfo subtitleFile, IList<string> languages, IList<FileInfo> attachments, FileInfo chapterFile, string[] subtitleAppendices, string output)
+        public static void Multiplex(FileInfo videoFile, FileInfo audioFile, FileInfo subtitleFile, IList<string> languages, IList<FileInfo> attachments, FileInfo chapterFile, string[] subtitleAppendices, string output)
         {
             languages = languages.Select(i => i.ToLower()).ToList();
             string videoExtension = (videoFile?.Extension ?? "").ToLower();
@@ -37,6 +37,10 @@ namespace OnePaceCore.Utils
             }
             string arguments = $"--output {EscapePath(output)}";
             arguments += $" --language 0:{languages[0]} --language 1:{languages[1]} {EscapePath(videoFile)}";
+            if (audioFile != null)
+            {
+                arguments += $" --language 0:{languages[0]} {EscapePath(audioFile)}";
+            }
             arguments += $" --language 0:{languages[2]} ( {EscapePath(subtitleFile)}";
             if (subtitleAppendices != null && subtitleAppendices.Length > 0)
             {
